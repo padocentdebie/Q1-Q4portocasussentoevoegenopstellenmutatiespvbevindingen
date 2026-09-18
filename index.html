@@ -353,16 +353,21 @@ function kiesRol(rol) {
 async function inloggen() {
   const foutEl = document.getElementById('loginFout');
   foutEl.textContent = '';
+  
   if (huidigeRol === 'docent') {
-    huidigeGebruiker = { naam: 'Docent', klas: null, roepnummer: null, rol: 'docent' };
+    // DOCENT IDENTITEIT
+    huidigeGebruiker = { naam: 'Docent', klas: null, roepnummer: 'MELDKAMER', rol: 'docent', naamKey: 'docent' };
     startApp();
+    initPorto('MELDKAMER'); 
     return;
   }
+  
   const naam = document.getElementById('voornaamInvoer').value.trim();
   const klas = document.getElementById('klasSelect').value;
   if (!naam) { foutEl.textContent = 'Vul je voornaam in.'; return; }
   if (!klas) { foutEl.textContent = 'Selecteer een klas.'; return; }
   const naamKey = veiligeKey(naam);
+  
   try {
     const gebruikersRef = ref(db, `klassen/${klas}/gebruikers`);
     const snapshot = await get(gebruikersRef);
@@ -415,7 +420,10 @@ function startApp() {
   document.getElementById('headerRol').textContent = huidigeGebruiker.rol === 'docent' ? 'Docent' : huidigeGebruiker.klas;
   document.getElementById('headerNaam').textContent = huidigeGebruiker.rol === 'docent' ? '👨‍🏫 Docent' : huidigeGebruiker.naam;
   document.getElementById('docentTab').style.display = huidigeGebruiker.rol === 'docent' ? 'block' : 'none';
-  if (huidigeGebruiker.rol === 'student') { startPortoVoorStudent(); }
+  
+  if (huidigeGebruiker.rol === 'student') { 
+      startPortoVoorStudent(); 
+  }
   laadCasussen();
   laadMutaties();
   laadPvs();
@@ -564,10 +572,16 @@ async function initPorto(roepnummer) {
     localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     statusEl.textContent = 'Verbonden – houd de knop in om te zenden';
     document.getElementById('pttKnop').disabled = false;
+    
     await set(ref(db, `porto/eenheden/${roepnummer}`), {
-      roepnummer, naam: huidigeGebruiker.naam, klas: huidigeGebruiker.klas,
-      online: true, zendt: false, verbondenSinds: serverTimestamp()
+      roepnummer, 
+      naam: huidigeGebruiker.naam, 
+      klas: huidigeGebruiker.klas || 'Meldkamer',
+      online: true, 
+      zendt: false, 
+      verbondenSinds: serverTimestamp()
     });
+    
     onDisconnect(ref(db, `porto/eenheden/${roepnummer}/online`)).set(false);
     onDisconnect(ref(db, `porto/eenheden/${roepnummer}/zendt`)).set(false);
     
@@ -604,7 +618,14 @@ function updateActieveEenheden(eenheden) {
 
 function onderhoudPeerConnections(eenheden, mijnRoepnummer) {
   const anderen = Object.keys(eenheden).filter(rn => rn !== mijnRoepnummer);
-  anderen.forEach(rn => { if (!peerConnections[rn]) maakPeerConnection(rn, true); });
+  anderen.forEach(rn => { 
+    if (!peerConnections[rn]) {
+      // FIX: Alleen degene met het alfabetisch hogere roepnummer maakt de connectie (Offer). 
+      // Dit voorkomt dat beide partijen tegelijkertijd Offers sturen (Collision).
+      const isInitiator = mijnRoepnummer > rn;
+      maakPeerConnection(rn, isInitiator); 
+    }
+  });
   Object.keys(peerConnections).forEach(rn => { if (!anderen.includes(rn)) sluitPeerConnection(rn); });
 }
 
@@ -620,52 +641,60 @@ async function maakPeerConnection(remoteRoepnummer, isInitiator) {
     if (!audio) {
       audio = new Audio(); audio.autoplay = true; audioElements[remoteRoepnummer] = audio;
     }
-    audio.srcObject = event.streams[0];
+    if (audio.srcObject !== event.streams[0]) {
+      audio.srcObject = event.streams[0];
+    }
   };
 
   pc.onicecandidate = (event) => {
     if (event.candidate) {
-      // Zend ICE candidate naar de specifieke inbox van de ontvanger
       push(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/ice`), event.candidate.toJSON());
     }
   };
 
-  // Luister naar eigen inbox voor SDP
   onValue(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/${remoteRoepnummer}/sdp`), async (snap) => {
     const sdp = snap.val();
-    if (sdp && sdp.type) {
-      if (!pc.currentRemoteDescription || pc.currentRemoteDescription.type !== sdp.type) {
-        await pc.setRemoteDescription(new RTCSessionDescription(sdp));
-        if (sdp.type === 'offer') {
-          const answer = await pc.createAnswer();
-          await pc.setLocalDescription(answer);
-          // Antwoord terugsturen naar ontvanger inbox
-          set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), answer);
-        }
+    if (sdp && sdp.type && pc.signalingState !== 'closed') {
+      try {
+          if (sdp.type === 'offer' && pc.signalingState !== 'have-local-offer') {
+            await pc.setRemoteDescription(new RTCSessionDescription(sdp));
+            const answer = await pc.createAnswer();
+            await pc.setLocalDescription(answer);
+            set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), {
+                type: answer.type, sdp: answer.sdp
+            });
+          } else if (sdp.type === 'answer' && pc.signalingState === 'have-local-offer') {
+            await pc.setRemoteDescription(new RTCSessionDescription(sdp));
+          }
+      } catch (e) {
+          console.error("Fout bij afhandelen SDP:", e);
       }
     }
   });
 
-  // Luister naar eigen inbox voor ICE
   onChildAdded(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/${remoteRoepnummer}/ice`), async (snap) => {
     const ice = snap.val();
-    if (ice) {
+    if (ice && pc.signalingState !== 'closed') {
       try { await pc.addIceCandidate(new RTCIceCandidate(ice)); } catch(e) {}
     }
   });
 
   if (isInitiator) {
-    const offer = await pc.createOffer();
-    await pc.setLocalDescription(offer);
-    // Offer sturen naar ontvanger inbox
-    set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), offer);
+    try {
+        // Maak eerst oude signalen leeg voordat we een nieuwe offer maken
+        await remove(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}`));
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), {
+            type: offer.type, sdp: offer.sdp
+        });
+    } catch(e) { console.error("Fout bij verzenden offer", e); }
   }
 }
 
 function sluitPeerConnection(roepnummer) {
   if (peerConnections[roepnummer]) { peerConnections[roepnummer].close(); delete peerConnections[roepnummer]; }
   if (audioElements[roepnummer]) { audioElements[roepnummer].srcObject = null; delete audioElements[roepnummer]; }
-  // Ruim eigen inbox op van deze zender
   if (huidigeGebruiker && huidigeGebruiker.roepnummer) {
       remove(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/${roepnummer}`));
   }
@@ -746,6 +775,7 @@ async function laadStudentenVoorDocent() {
 window.wijsRoepnummerToe = async function(klas, naamKey, roepnummer) {
   try {
     if (roepnummer) {
+      // Voordat we een nieuw nummer toewijzen, schoont de student straks zelf op.
       await set(ref(db, `klassen/${klas}/gebruikers/${naamKey}/roepnummer`), roepnummer);
       toonMelding(`✅ Roepnummer ${roepnummer} toegewezen.`);
     } else {
@@ -772,11 +802,12 @@ window.toonModule = function(naam) {
   if (moduleEl) moduleEl.classList.add('actief');
   const tabEl = document.querySelector(`.tab[data-module="${naam}"]`);
   if (tabEl) tabEl.classList.add('actief');
+  
+  // Zorg dat de docent ook gewoon de porto knop blijft zien en kan spreken
   if (naam === 'porto' && huidigeGebruiker && huidigeGebruiker.rol === 'docent') {
-    document.getElementById('pttKnop').style.display = 'none';
+    document.getElementById('pttKnop').style.display = 'flex';
     document.getElementById('roepnummerDisplay').textContent = 'MELDKAMER';
     document.getElementById('roepnummerDisplay').style.fontSize = '2rem';
-    document.getElementById('portoStatus').textContent = 'U luistert mee als meldkamer';
   } else if (naam === 'porto' && huidigeGebruiker && huidigeGebruiker.rol === 'student') {
     document.getElementById('pttKnop').style.display = 'flex';
   }
@@ -787,12 +818,10 @@ function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// Essentiële koppelingen van functies aan het window-object voor HTML-interactie
 window.kiesRol = kiesRol;
 window.inloggen = inloggen;
 window.uitloggen = uitloggen;
 
-// Initialisatie
 kiesRol('student');
 </script>
 </body>
