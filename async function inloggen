@@ -392,14 +392,14 @@ function ruimListenersOp() {
 // INLOGGEN
 // ════════════════════════════════════════════════════════
 
-function kiesRol(rol) {
+windo.kiesRol = function(rol) {
   huidigeRol = rol;
   document.getElementById('rolStudentKnop').classList.toggle('actief', rol === 'student');
   document.getElementById('rolDocentKnop').classList.toggle('actief', rol === 'docent');
   document.getElementById('studentLoginVelden').style.display = rol === 'student' ? 'block' : 'none';
 }
 
-async function inloggen() {
+window.inloggen =  async function() {
   const foutEl = document.getElementById('loginFout');
   foutEl.textContent = '';
 
@@ -456,7 +456,7 @@ async function inloggen() {
   }
 }
 
-async function uitloggen() {
+window.uitloggen = async function() {
   if (huidigeGebruiker && huidigeGebruiker.rol === 'student') {
     try {
       // Verwijder de gebruiker uit Firebase
