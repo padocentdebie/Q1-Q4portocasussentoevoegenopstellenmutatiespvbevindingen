@@ -15,7 +15,6 @@
       display: flex;
       flex-direction: column;
     }
-
     /* ── Inlogscherm ── */
     #loginScherm {
       position: fixed; inset: 0;
@@ -42,10 +41,8 @@
       cursor: pointer; transition: .2s;
     }
     .rolKiezer button.actief { background: #3b9eff; color: #fff; }
-
     /* ── Hoofdinterface ── */
     #app { display: none; flex-direction: column; height: 100vh; }
-
     header {
       background: #162230; padding: .8rem 1.5rem;
       display: flex; align-items: center; justify-content: space-between;
@@ -57,7 +54,6 @@
       background: #1a2a3a; padding: .3rem .8rem; border-radius: 20px;
       border: 1px solid #2a3a4a; font-weight: 600; color: #3b9eff;
     }
-
     /* ── Tabbladen ── */
     .tabs {
       display: flex; background: #121e2a; border-bottom: 1px solid #2a3a4a;
@@ -70,17 +66,14 @@
     }
     .tab:hover { background: #162230; color: #c0d0e0; }
     .tab.actief { border-bottom-color: #3b9eff; color: #3b9eff; background: #162230; }
-
     .module { display: none; flex: 1; overflow-y: auto; padding: 1.5rem; }
     .module.actief { display: block; }
-
     /* ── Kaarten ── */
     .kaart {
       background: #162230; border-radius: 12px; padding: 1.2rem;
       border: 1px solid #2a3a4a; margin-bottom: 1rem;
     }
     .kaart h3 { color: #3b9eff; margin-bottom: .8rem; font-size: 1rem; }
-
     /* ── Formulieren ── */
     label { display: block; margin-bottom: .3rem; font-size: .85rem; color: #8899aa; }
     input[type="text"], textarea, select {
@@ -92,7 +85,6 @@
     input:focus, textarea:focus, select:focus {
       outline: none; border-color: #3b9eff; box-shadow: 0 0 0 2px rgba(59,158,255,.2);
     }
-
     button.actie {
       padding: .6rem 1.5rem; border: none; border-radius: 8px;
       background: #3b9eff; color: #fff; font-weight: 600; cursor: pointer;
@@ -104,7 +96,6 @@
     button.actie.succes { background: #27ae60; }
     button.actie.succes:hover { background: #1e8449; }
     button.actie:disabled { opacity: .4; cursor: not-allowed; }
-
     /* ── Lijsten ── */
     .lijst-item {
       background: #121e2a; padding: .8rem 1rem; border-radius: 8px;
@@ -114,17 +105,14 @@
     }
     .lijst-item .naam { font-weight: 600; }
     .lijst-item .details { font-size: .8rem; color: #8899aa; }
-
     /* ── Porto (walkie-talkie) ── */
     #portoModule { display: none; flex-direction: column; align-items: center; }
     #portoModule.actief { display: flex; }
-
     .roepnummer-display {
       font-size: 3rem; font-weight: 700; color: #3b9eff;
       letter-spacing: 4px; margin: 1rem 0 .5rem; text-align: center;
     }
     .roepnummer-label { font-size: .85rem; color: #8899aa; margin-bottom: 1.5rem; }
-
     #pttKnop {
       width: 180px; height: 180px; border-radius: 50%;
       border: 6px solid #3b9eff; background: #1a2a3a;
@@ -138,14 +126,12 @@
       box-shadow: 0 0 40px rgba(231,76,60,.5); transform: scale(.95);
     }
     #pttKnop:disabled { opacity: .3; cursor: not-allowed; }
-
     .porto-status {
       font-size: .9rem; color: #8899aa; margin-top: .5rem;
       padding: .4rem 1rem; border-radius: 20px; background: #121e2a;
     }
     .porto-status.zenden { color: #e74c3c; font-weight: 600; }
     .porto-status.ontvangen { color: #27ae60; font-weight: 600; }
-
     /* ── Docent roepnummer toewijzing ── */
     .student-rij {
       display: flex; align-items: center; gap: .5rem;
@@ -161,7 +147,6 @@
       background: #27ae60; flex-shrink: 0;
     }
     .student-rij .online-stip.offline { background: #555; }
-
     /* ── Meldingen ── */
     #melding {
       position: fixed; bottom: 1.5rem; right: 1.5rem;
@@ -173,7 +158,6 @@
     }
     #melding.zichtbaar { opacity: 1; }
     #melding.fout { border-color: #e74c3c; }
-
     /* ── Responsief ── */
     @media (max-width: 600px) {
       header { flex-direction: column; align-items: flex-start; }
@@ -183,19 +167,16 @@
   </style>
 </head>
 <body>
-
 <!-- ════════════════════════════════════════════════════════
      INLOGSCHERM
      ════════════════════════════════════════════════════════ -->
 <div id="loginScherm">
   <h1>🚔 POLITIE OPLEIDING</h1>
   <p style="color:#8899aa; margin-bottom:.5rem;">Selecteer je rol en log in</p>
-
   <div class="rolKiezer">
     <button id="rolStudentKnop" class="actief" onclick="kiesRol('student')">Student</button>
     <button id="rolDocentKnop" onclick="kiesRol('docent')">Docent</button>
   </div>
-
   <div id="studentLoginVelden">
     <input type="text" id="voornaamInvoer" placeholder="Voornaam" maxlength="30" autocomplete="off">
     <select id="klasSelect">
@@ -206,16 +187,13 @@
       <option>KILO</option><option>LIMA</option><option>MIKE</option>
     </select>
   </div>
-
   <button id="loginKnop" onclick="inloggen()">Inloggen</button>
   <p id="loginFout" style="color:#e74c3c; font-size:.85rem; min-height:1.2rem;"></p>
 </div>
-
 <!-- ════════════════════════════════════════════════════════
      HOOFDINTERFACE
      ════════════════════════════════════════════════════════ -->
 <div id="app">
-
   <header>
     <h1>🚔 Lesapplicatie – <span id="headerRol"></span></h1>
     <div class="userInfo">
@@ -224,7 +202,6 @@
       <button class="actie gevaar" onclick="uitloggen()" style="padding:.4rem 1rem; font-size:.8rem;">Uitloggen</button>
     </div>
   </header>
-
   <div class="tabs" id="tabBalk">
     <div class="tab actief" data-module="casus" onclick="toonModule('casus')">📋 Casus</div>
     <div class="tab" data-module="mutatie" onclick="toonModule('mutatie')">📝 Mutatie</div>
@@ -232,7 +209,6 @@
     <div class="tab" data-module="porto" onclick="toonModule('porto')">📻 Porto</div>
     <div class="tab" id="docentTab" data-module="docent" onclick="toonModule('docent')" style="display:none;">👨‍🏫 Docent</div>
   </div>
-
   <!-- ── Module: Casus ── -->
   <div class="module actief" id="module-casus">
     <div class="kaart">
@@ -254,7 +230,6 @@
       <div id="casusWeergave" style="color:#8899aa; font-style:italic;">Nog geen casus geselecteerd.</div>
     </div>
   </div>
-
   <!-- ── Module: Mutatie ── -->
   <div class="module" id="module-mutatie">
     <div class="kaart">
@@ -271,7 +246,6 @@
       <div id="mutatieLijst" style="color:#8899aa; font-style:italic;">Nog geen mutaties opgeslagen.</div>
     </div>
   </div>
-
   <!-- ── Module: PV Bevindingen ── -->
   <div class="module" id="module-pv">
     <div class="kaart">
@@ -288,21 +262,17 @@
       <div id="pvLijst" style="color:#8899aa; font-style:italic;">Nog geen PV's opgeslagen.</div>
     </div>
   </div>
-
   <!-- ── Module: Porto ── -->
   <div class="module" id="module-porto">
     <div class="roepnummer-display" id="roepnummerDisplay">– – – –</div>
     <div class="roepnummer-label">Jouw roepnummer</div>
-
     <button id="pttKnop" disabled>📻<br>Houd in</button>
     <div class="porto-status" id="portoStatus">Verbinden...</div>
-
     <div style="margin-top:2rem; width:100%; max-width:500px;">
       <h3 style="color:#3b9eff; margin-bottom:.8rem; font-size:.95rem;">📡 Actieve eenheden</h3>
       <div id="actieveEenheden"></div>
     </div>
   </div>
-
   <!-- ── Module: Docent ── -->
   <div class="module" id="module-docent">
     <div class="kaart">
@@ -320,9 +290,7 @@
       <button class="actie gevaar" onclick="resetAlles()">🔄 Reset namen en teksten</button>
     </div>
   </div>
-
 </div>
-
 <!-- Melding -->
 <div id="melding"></div>
 
@@ -330,13 +298,11 @@
      FIREBASE + APPLICATIELOGICA
      ════════════════════════════════════════════════════════ -->
 <script type="module">
-// ── Firebase imports (modular SDK v9+) ──
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  getDatabase, ref, set, get, child, onValue, update, remove, push, onDisconnect, serverTimestamp
+  getDatabase, ref, set, get, child, onValue, update, remove, push, onDisconnect, serverTimestamp, onChildAdded
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ── Firebase configuratie ──
 const firebaseConfig = {
   apiKey: "AIzaSyB_dmkDPTPm7gKVscacSVPNGfCibN2cu7U",
   authDomain: "aispecialist-e7cff.firebaseapp.com",
@@ -346,29 +312,20 @@ const firebaseConfig = {
   messagingSenderId: "65679462920",
   appId: "1:65679462920:web:1bf5fb62f3feb9966777bd"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ════════════════════════════════════════════════════════
-// GLOBALE STATE
-// ════════════════════════════════════════════════════════
-let huidigeRol = 'student';      // 'student' of 'docent'
-let huidigeGebruiker = null;     // { naam, klas, roepnummer }
+// Globale status
+let huidigeRol = 'student';
+let huidigeGebruiker = null;
 let geselecteerdeCasusId = null;
-let actieveListeners = [];       // om op te ruimen bij uitloggen
+let actieveListeners = [];
 
-// ── Beschikbare roepnummers ──
 const BESCHIKBARE_ROEPNUMMERS = [
   '1101','1102','1103','1104','1105','1106',
   '1107','1108','1109','1110','1111','1112'
 ];
 
-// ════════════════════════════════════════════════════════
-// HULPFUNCTIES
-// ════════════════════════════════════════════════════════
-
-/** Toon een korte melding aan de gebruiker. */
 function toonMelding(tekst, isFout = false) {
   const el = document.getElementById('melding');
   el.textContent = tekst;
@@ -377,53 +334,38 @@ function toonMelding(tekst, isFout = false) {
   el._timeout = setTimeout(() => el.classList.remove('zichtbaar'), 3000);
 }
 
-/** Genereer een veilige Firebase-key van een naam. */
 function veiligeKey(naam) {
   return naam.toLowerCase().replace(/[.#$\[\]\/]/g, '_');
 }
 
-/** Ruim alle Firebase listeners op. */
 function ruimListenersOp() {
   actieveListeners.forEach(unsub => { try { unsub(); } catch(e){} });
   actieveListeners = [];
 }
 
-// ════════════════════════════════════════════════════════
-// INLOGGEN
-// ════════════════════════════════════════════════════════
-
-windo.kiesRol = function(rol) {
+function kiesRol(rol) {
   huidigeRol = rol;
   document.getElementById('rolStudentKnop').classList.toggle('actief', rol === 'student');
   document.getElementById('rolDocentKnop').classList.toggle('actief', rol === 'docent');
   document.getElementById('studentLoginVelden').style.display = rol === 'student' ? 'block' : 'none';
 }
 
-window.inloggen =  async function() {
+async function inloggen() {
   const foutEl = document.getElementById('loginFout');
   foutEl.textContent = '';
-
   if (huidigeRol === 'docent') {
-    // Docent logt direct in
     huidigeGebruiker = { naam: 'Docent', klas: null, roepnummer: null, rol: 'docent' };
     startApp();
     return;
   }
-
-  // Student-login
   const naam = document.getElementById('voornaamInvoer').value.trim();
   const klas = document.getElementById('klasSelect').value;
-
   if (!naam) { foutEl.textContent = 'Vul je voornaam in.'; return; }
   if (!klas) { foutEl.textContent = 'Selecteer een klas.'; return; }
-
   const naamKey = veiligeKey(naam);
-
   try {
-    // Controleer of de naam al in gebruik is in deze klas
     const gebruikersRef = ref(db, `klassen/${klas}/gebruikers`);
     const snapshot = await get(gebruikersRef);
-
     if (snapshot.exists()) {
       const gebruikers = snapshot.val();
       for (const [key, data] of Object.entries(gebruikers)) {
@@ -433,8 +375,6 @@ window.inloggen =  async function() {
         }
       }
     }
-
-    // Registreer de student in Firebase
     await set(ref(db, `klassen/${klas}/gebruikers/${naamKey}`), {
       naam: naam,
       klas: klas,
@@ -442,98 +382,54 @@ window.inloggen =  async function() {
       online: true,
       loginTijd: serverTimestamp()
     });
-
-    // Zet onDisconnect om offline te gaan
     const onlineRef = ref(db, `klassen/${klas}/gebruikers/${naamKey}/online`);
     onDisconnect(onlineRef).set(false);
-
     huidigeGebruiker = { naam, klas, roepnummer: null, rol: 'student', naamKey };
     startApp();
-
   } catch (err) {
     console.error('Login fout:', err);
     foutEl.textContent = 'Er ging iets mis bij het inloggen. Probeer opnieuw.';
   }
 }
 
-window.uitloggen = async function() {
+async function uitloggen() {
   if (huidigeGebruiker && huidigeGebruiker.rol === 'student') {
     try {
-      // Verwijder de gebruiker uit Firebase
       await remove(ref(db, `klassen/${huidigeGebruiker.klas}/gebruikers/${huidigeGebruiker.naamKey}`));
-    } catch (err) {
-      console.error('Uitlog fout:', err);
-    }
+    } catch (err) {}
   }
-
-  // Stop WebRTC
   stopPorto();
-
-  // Ruim listeners op
   ruimListenersOp();
-
-  // Reset UI
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScherm').style.display = 'flex';
   huidigeGebruiker = null;
   geselecteerdeCasusId = null;
-
-  // Reset invoervelden
   document.getElementById('voornaamInvoer').value = '';
   document.getElementById('klasSelect').value = '';
   document.getElementById('loginFout').textContent = '';
 }
 
-// ════════════════════════════════════════════════════════
-// APP STARTEN
-// ════════════════════════════════════════════════════════
-
 function startApp() {
   document.getElementById('loginScherm').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-
-  // Header info
-  document.getElementById('headerRol').textContent =
-    huidigeGebruiker.rol === 'docent' ? 'Docent' : huidigeGebruiker.klas;
-  document.getElementById('headerNaam').textContent =
-    huidigeGebruiker.rol === 'docent' ? '👨‍🏫 Docent' : huidigeGebruiker.naam;
-
-  // Docent-tab tonen
-  document.getElementById('docentTab').style.display =
-    huidigeGebruiker.rol === 'docent' ? 'block' : 'none';
-
-  // Als student: start de porto
-  if (huidigeGebruiker.rol === 'student') {
-    startPortoVoorStudent();
-  }
-
-  // Casussen laden
+  document.getElementById('headerRol').textContent = huidigeGebruiker.rol === 'docent' ? 'Docent' : huidigeGebruiker.klas;
+  document.getElementById('headerNaam').textContent = huidigeGebruiker.rol === 'docent' ? '👨‍🏫 Docent' : huidigeGebruiker.naam;
+  document.getElementById('docentTab').style.display = huidigeGebruiker.rol === 'docent' ? 'block' : 'none';
+  if (huidigeGebruiker.rol === 'student') { startPortoVoorStudent(); }
   laadCasussen();
-
-  // Mutaties en PV's laden
   laadMutaties();
   laadPvs();
-
-  // Docent: studentenlijst
-  if (huidigeGebruiker.rol === 'docent') {
-    laadStudentenVoorDocent();
-  }
+  if (huidigeGebruiker.rol === 'docent') { laadStudentenVoorDocent(); }
 }
-
-// ════════════════════════════════════════════════════════
-// MODULE: CASUS
-// ════════════════════════════════════════════════════════
 
 async function laadCasussen() {
   const lijstEl = document.getElementById('casusLijst');
-
   onValue(ref(db, 'casussen'), (snapshot) => {
     const data = snapshot.val();
     if (!data) {
       lijstEl.innerHTML = '<p style="color:#8899aa; font-style:italic;">Nog geen casussen beschikbaar. Voeg er een toe.</p>';
       return;
     }
-
     let html = '';
     for (const [id, casus] of Object.entries(data)) {
       const actief = id === geselecteerdeCasusId;
@@ -561,168 +457,98 @@ window.selecteerCasus = function(id) {
         `<strong style="color:#e0e6ed;">${escapeHtml(c.titel)}</strong><br><br>${escapeHtml(c.omschrijving).replace(/\n/g, '<br>')}`;
     }
   });
-  laadCasussen(); // herlaad om actieve status bij te werken
+  laadCasussen(); 
 };
-
 window.laadNieuweCasus = function() {
   document.getElementById('casusToevoegKaart').style.display = 'block';
   document.getElementById('casusTitel').value = '';
   document.getElementById('casusOmschrijving').value = '';
   document.getElementById('casusTitel').focus();
 };
-
-window.annuleerCasusToevoegen = function() {
-  document.getElementById('casusToevoegKaart').style.display = 'none';
-};
-
+window.annuleerCasusToevoegen = function() { document.getElementById('casusToevoegKaart').style.display = 'none'; };
 window.slaCasusOp = async function() {
   const titel = document.getElementById('casusTitel').value.trim();
   const omschrijving = document.getElementById('casusOmschrijving').value.trim();
-
-  if (!titel || !omschrijving) {
-    toonMelding('Vul zowel een titel als een omschrijving in.', true);
-    return;
-  }
-
+  if (!titel || !omschrijving) { toonMelding('Vul zowel een titel als een omschrijving in.', true); return; }
   try {
-    await push(ref(db, 'casussen'), {
-      titel, omschrijving,
-      aangemaaktDoor: huidigeGebruiker.naam,
-      aangemaaktOp: serverTimestamp()
-    });
+    await push(ref(db, 'casussen'), { titel, omschrijving, aangemaaktDoor: huidigeGebruiker.naam, aangemaaktOp: serverTimestamp() });
     toonMelding('✅ Casus opgeslagen!');
     annuleerCasusToevoegen();
-  } catch (err) {
-    console.error(err);
-    toonMelding('Fout bij opslaan casus.', true);
-  }
+  } catch (err) { toonMelding('Fout bij opslaan casus.', true); }
 };
-
-// ════════════════════════════════════════════════════════
-// MODULE: MUTATIE
-// ════════════════════════════════════════════════════════
 
 async function laadMutaties() {
   if (!huidigeGebruiker || huidigeGebruiker.rol === 'docent') return;
-
-  const refPad = `mutaties/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`;
-  onValue(ref(db, refPad), (snapshot) => {
+  onValue(ref(db, `mutaties/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), (snapshot) => {
     const data = snapshot.val();
     const lijstEl = document.getElementById('mutatieLijst');
-    if (!data) {
-      lijstEl.innerHTML = '<p style="color:#8899aa; font-style:italic;">Nog geen mutaties opgeslagen.</p>';
-      return;
-    }
-
+    if (!data) { lijstEl.innerHTML = '<p style="color:#8899aa; font-style:italic;">Nog geen mutaties opgeslagen.</p>'; return; }
     let html = '';
     for (const [id, m] of Object.entries(data)) {
       const datum = m.tijdstip ? new Date(m.tijdstip).toLocaleString('nl-NL') : '';
-      html += `
-        <div class="lijst-item">
-          <div>
-            <div class="details">${datum}</div>
-            <div>${escapeHtml(m.tekst).substring(0, 100)}${m.tekst.length > 100 ? '...' : ''}</div>
-          </div>
-        </div>`;
+      html += `<div class="lijst-item"><div><div class="details">${datum}</div><div>${escapeHtml(m.tekst).substring(0, 100)}${m.tekst.length > 100 ? '...' : ''}</div></div></div>`;
     }
     lijstEl.innerHTML = html;
   });
 }
-
 window.slaMutatieOp = async function() {
   const tekst = document.getElementById('mutatieTekst').value.trim();
   if (!tekst) { toonMelding('Typ eerst een mutatie.', true); return; }
-
   try {
-    await push(ref(db, `mutaties/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), {
-      tekst,
-      tijdstip: Date.now(),
-      casusId: geselecteerdeCasusId || null
-    });
-    document.getElementById('mutatieTekst').value = '';
-    toonMelding('✅ Mutatie opgeslagen!');
-  } catch (err) {
-    console.error(err);
-    toonMelding('Fout bij opslaan mutatie.', true);
-  }
+    await push(ref(db, `mutaties/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), { tekst, tijdstip: Date.now(), casusId: geselecteerdeCasusId || null });
+    document.getElementById('mutatieTekst').value = ''; toonMelding('✅ Mutatie opgeslagen!');
+  } catch (err) { toonMelding('Fout bij opslaan mutatie.', true); }
 };
-
-// ════════════════════════════════════════════════════════
-// MODULE: PV BEVINDINGEN
-// ════════════════════════════════════════════════════════
 
 async function laadPvs() {
   if (!huidigeGebruiker || huidigeGebruiker.rol === 'docent') return;
-
-  const refPad = `pvs/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`;
-  onValue(ref(db, refPad), (snapshot) => {
+  onValue(ref(db, `pvs/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), (snapshot) => {
     const data = snapshot.val();
     const lijstEl = document.getElementById('pvLijst');
-    if (!data) {
-      lijstEl.innerHTML = '<p style="color:#8899aa; font-style:italic;">Nog geen PV\'s opgeslagen.</p>';
-      return;
-    }
-
+    if (!data) { lijstEl.innerHTML = '<p style="color:#8899aa; font-style:italic;">Nog geen PV\'s opgeslagen.</p>'; return; }
     let html = '';
     for (const [id, p] of Object.entries(data)) {
       const datum = p.tijdstip ? new Date(p.tijdstip).toLocaleString('nl-NL') : '';
-      html += `
-        <div class="lijst-item">
-          <div>
-            <div class="details">${datum}</div>
-            <div>${escapeHtml(p.tekst).substring(0, 100)}${p.tekst.length > 100 ? '...' : ''}</div>
-          </div>
-        </div>`;
+      html += `<div class="lijst-item"><div><div class="details">${datum}</div><div>${escapeHtml(p.tekst).substring(0, 100)}${p.tekst.length > 100 ? '...' : ''}</div></div></div>`;
     }
     lijstEl.innerHTML = html;
   });
 }
-
 window.slaPvOp = async function() {
   const tekst = document.getElementById('pvTekst').value.trim();
   if (!tekst) { toonMelding('Typ eerst PV Bevindingen.', true); return; }
-
   try {
-    await push(ref(db, `pvs/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), {
-      tekst,
-      tijdstip: Date.now(),
-      casusId: geselecteerdeCasusId || null
-    });
-    document.getElementById('pvTekst').value = '';
-    toonMelding('✅ PV opgeslagen!');
-  } catch (err) {
-    console.error(err);
-    toonMelding('Fout bij opslaan PV.', true);
-  }
+    await push(ref(db, `pvs/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), { tekst, tijdstip: Date.now(), casusId: geselecteerdeCasusId || null });
+    document.getElementById('pvTekst').value = ''; toonMelding('✅ PV opgeslagen!');
+  } catch (err) { toonMelding('Fout bij opslaan PV.', true); }
 };
 
-// ════════════════════════════════════════════════════════
-// MODULE: PORTO (WALKIE-TALKIE)
-// ════════════════════════════════════════════════════════
-
 let localStream = null;
-let peerConnections = {};      // { roepnummer: RTCPeerConnection }
-let audioElements = {};        // { roepnummer: HTMLAudioElement }
+let peerConnections = {};
+let audioElements = {};
 let isZenden = false;
 let portoListenerUnsub = null;
 let docentRoepnummerUnsub = null;
 
-/** Start de porto voor een student. */
 async function startPortoVoorStudent() {
   const display = document.getElementById('roepnummerDisplay');
   const statusEl = document.getElementById('portoStatus');
-
-  // Wacht tot de docent een roepnummer heeft toegewezen
+  
   docentRoepnummerUnsub = onValue(
     ref(db, `klassen/${huidigeGebruiker.klas}/gebruikers/${huidigeGebruiker.naamKey}/roepnummer`),
     (snap) => {
       const rn = snap.val();
       if (rn) {
-        huidigeGebruiker.roepnummer = rn;
-        display.textContent = rn;
-        document.getElementById('headerRoepnummer').textContent = rn;
-        initPorto(rn);
+        if (huidigeGebruiker.roepnummer !== rn) {
+            if (huidigeGebruiker.roepnummer) stopPorto(); // Verbreek oude verbinding eerst
+            huidigeGebruiker.roepnummer = rn;
+            display.textContent = rn;
+            document.getElementById('headerRoepnummer').textContent = rn;
+            initPorto(rn);
+        }
       } else {
+        if (huidigeGebruiker.roepnummer) stopPorto();
+        huidigeGebruiker.roepnummer = null;
         display.textContent = '– – – –';
         document.getElementById('headerRoepnummer').textContent = 'Wacht...';
         statusEl.textContent = 'Wacht op roepnummer van docent...';
@@ -731,45 +557,31 @@ async function startPortoVoorStudent() {
   );
 }
 
-/** Initialiseer WebRTC + Firebase signaling voor een student. */
 async function initPorto(roepnummer) {
   const statusEl = document.getElementById('portoStatus');
   statusEl.textContent = 'Microfoon aanvragen...';
-
   try {
     localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     statusEl.textContent = 'Verbonden – houd de knop in om te zenden';
     document.getElementById('pttKnop').disabled = false;
-
-    // Registreer deze eenheid in Firebase
     await set(ref(db, `porto/eenheden/${roepnummer}`), {
-      roepnummer,
-      naam: huidigeGebruiker.naam,
-      klas: huidigeGebruiker.klas,
-      online: true,
-      zendt: false,
-      verbondenSinds: serverTimestamp()
+      roepnummer, naam: huidigeGebruiker.naam, klas: huidigeGebruiker.klas,
+      online: true, zendt: false, verbondenSinds: serverTimestamp()
     });
-
-    // OnDisconnect
     onDisconnect(ref(db, `porto/eenheden/${roepnummer}/online`)).set(false);
     onDisconnect(ref(db, `porto/eenheden/${roepnummer}/zendt`)).set(false);
-
-    // Luister naar andere eenheden voor WebRTC-signalering
+    
     portoListenerUnsub = onValue(ref(db, 'porto/eenheden'), (snapshot) => {
       const eenheden = snapshot.val() || {};
       updateActieveEenheden(eenheden);
       onderhoudPeerConnections(eenheden, roepnummer);
     });
-
   } catch (err) {
-    console.error('Porto init fout:', err);
     statusEl.textContent = '❌ Geen microfoon toegang';
     toonMelding('Microfoontoegang geweigerd. Porto werkt niet.', true);
   }
 }
 
-/** Update de lijst met actieve eenheden op het scherm. */
 function updateActieveEenheden(eenheden) {
   const el = document.getElementById('actieveEenheden');
   let html = '';
@@ -790,206 +602,144 @@ function updateActieveEenheden(eenheden) {
   el.innerHTML = html || '<p style="color:#8899aa; font-style:italic;">Geen andere eenheden actief.</p>';
 }
 
-/** Onderhoud WebRTC peer connections op basis van actieve eenheden. */
 function onderhoudPeerConnections(eenheden, mijnRoepnummer) {
   const anderen = Object.keys(eenheden).filter(rn => rn !== mijnRoepnummer);
-
-  // Maak verbindingen voor nieuwe eenheden
-  anderen.forEach(rn => {
-    if (!peerConnections[rn]) {
-      maakPeerConnection(rn, true);
-    }
-  });
-
-  // Ruim verbindingen op voor vertrokken eenheden
-  Object.keys(peerConnections).forEach(rn => {
-    if (!anderen.includes(rn)) {
-      sluitPeerConnection(rn);
-    }
-  });
+  anderen.forEach(rn => { if (!peerConnections[rn]) maakPeerConnection(rn, true); });
+  Object.keys(peerConnections).forEach(rn => { if (!anderen.includes(rn)) sluitPeerConnection(rn); });
 }
 
-/** Maak een RTCPeerConnection voor een specifieke eenheid. */
 async function maakPeerConnection(remoteRoepnummer, isInitiator) {
   if (peerConnections[remoteRoepnummer]) return;
-
-  const pc = new RTCPeerConnection({
-    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
-  });
-
+  const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
   peerConnections[remoteRoepnummer] = pc;
 
-  // Voeg lokale audio toe
-  if (localStream) {
-    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-  }
+  if (localStream) { localStream.getTracks().forEach(track => pc.addTrack(track, localStream)); }
 
-  // Ontvang audio van de andere kant
   pc.ontrack = (event) => {
     let audio = audioElements[remoteRoepnummer];
     if (!audio) {
-      audio = new Audio();
-      audio.autoplay = true;
-      audioElements[remoteRoepnummer] = audio;
+      audio = new Audio(); audio.autoplay = true; audioElements[remoteRoepnummer] = audio;
     }
     audio.srcObject = event.streams[0];
   };
 
-  // ICE candidates uitwisselen via Firebase
   pc.onicecandidate = (event) => {
     if (event.candidate) {
-      push(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/naar/${remoteRoepnummer}/ice`), event.candidate.toJSON());
+      // Zend ICE candidate naar de specifieke inbox van de ontvanger
+      push(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/ice`), event.candidate.toJSON());
     }
   };
 
-  // Luister naar signalen van de andere kant
-  const signaalRef = ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/van/${remoteRoepnummer}`);
-  const unsub = onValue(signaalRef, async (snap) => {
-    const signaal = snap.val();
-    if (!signaal) return;
-
-    if (signaal.sdp && !pc.currentRemoteDescription) {
-      await pc.setRemoteDescription(new RTCSessionDescription(signaal.sdp));
-      if (signaal.sdp.type === 'offer') {
-        const answer = await pc.createAnswer();
-        await pc.setLocalDescription(answer);
-        await set(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/naar/${remoteRoepnummer}/sdp`), answer);
+  // Luister naar eigen inbox voor SDP
+  onValue(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/${remoteRoepnummer}/sdp`), async (snap) => {
+    const sdp = snap.val();
+    if (sdp && sdp.type) {
+      if (!pc.currentRemoteDescription || pc.currentRemoteDescription.type !== sdp.type) {
+        await pc.setRemoteDescription(new RTCSessionDescription(sdp));
+        if (sdp.type === 'offer') {
+          const answer = await pc.createAnswer();
+          await pc.setLocalDescription(answer);
+          // Antwoord terugsturen naar ontvanger inbox
+          set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), answer);
+        }
       }
-    }
-
-    if (signaal.ice) {
-      try { await pc.addIceCandidate(new RTCIceCandidate(signaal.ice)); } catch(e) {}
     }
   });
 
-  // Als initiator: stuur een offer
+  // Luister naar eigen inbox voor ICE
+  onChildAdded(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/${remoteRoepnummer}/ice`), async (snap) => {
+    const ice = snap.val();
+    if (ice) {
+      try { await pc.addIceCandidate(new RTCIceCandidate(ice)); } catch(e) {}
+    }
+  });
+
   if (isInitiator) {
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
-    await set(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/naar/${remoteRoepnummer}/sdp`), offer);
+    // Offer sturen naar ontvanger inbox
+    set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), offer);
   }
 }
 
-/** Sluit een peer connection af. */
 function sluitPeerConnection(roepnummer) {
-  if (peerConnections[roepnummer]) {
-    peerConnections[roepnummer].close();
-    delete peerConnections[roepnummer];
+  if (peerConnections[roepnummer]) { peerConnections[roepnummer].close(); delete peerConnections[roepnummer]; }
+  if (audioElements[roepnummer]) { audioElements[roepnummer].srcObject = null; delete audioElements[roepnummer]; }
+  // Ruim eigen inbox op van deze zender
+  if (huidigeGebruiker && huidigeGebruiker.roepnummer) {
+      remove(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/${roepnummer}`));
   }
-  if (audioElements[roepnummer]) {
-    audioElements[roepnummer].srcObject = null;
-    delete audioElements[roepnummer];
-  }
-  // Ruim signalen op
-  remove(ref(db, `porto/signalen/${huidigeGebruiker.roepnummer}/van/${roepnummer}`));
 }
 
-/** Stop de hele porto (bij uitloggen). */
 function stopPorto() {
   if (portoListenerUnsub) { portoListenerUnsub(); portoListenerUnsub = null; }
   if (docentRoepnummerUnsub) { docentRoepnummerUnsub(); docentRoepnummerUnsub = null; }
-
   Object.keys(peerConnections).forEach(rn => sluitPeerConnection(rn));
-
   if (localStream) {
     localStream.getTracks().forEach(t => t.stop());
     localStream = null;
   }
-
   if (huidigeGebruiker && huidigeGebruiker.roepnummer) {
     remove(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`));
   }
-
   document.getElementById('pttKnop').disabled = true;
   document.getElementById('pttKnop').classList.remove('zenden');
   document.getElementById('portoStatus').textContent = 'Verbinden...';
 }
 
-// ── Push-to-Talk knop logica ──
 const pttKnop = document.getElementById('pttKnop');
-
 function startZenden() {
   if (isZenden || !huidigeGebruiker.roepnummer) return;
-  isZenden = true;
-  pttKnop.classList.add('zenden');
+  isZenden = true; pttKnop.classList.add('zenden');
   document.getElementById('portoStatus').textContent = '🔴 ZENDT...';
   document.getElementById('portoStatus').className = 'porto-status zenden';
-
-  // Update Firebase: deze eenheid zendt
   update(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`), { zendt: true });
 }
-
 function stopZenden() {
   if (!isZenden) return;
-  isZenden = false;
-  pttKnop.classList.remove('zenden');
+  isZenden = false; pttKnop.classList.remove('zenden');
   document.getElementById('portoStatus').textContent = 'Verbonden – houd de knop in om te zenden';
   document.getElementById('portoStatus').className = 'porto-status';
-
-  if (huidigeGebruiker.roepnummer) {
-    update(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`), { zendt: false });
-  }
+  if (huidigeGebruiker.roepnummer) { update(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`), { zendt: false }); }
 }
-
 pttKnop.addEventListener('mousedown', startZenden);
 pttKnop.addEventListener('mouseup', stopZenden);
 pttKnop.addEventListener('mouseleave', stopZenden);
 pttKnop.addEventListener('touchstart', (e) => { e.preventDefault(); startZenden(); });
 pttKnop.addEventListener('touchend', (e) => { e.preventDefault(); stopZenden(); });
 
-// ════════════════════════════════════════════════════════
-// MODULE: DOCENT – ROEPNUMMERS TOEWIJZEN
-// ════════════════════════════════════════════════════════
-
 async function laadStudentenVoorDocent() {
   const el = document.getElementById('studentLijstDocent');
-
-  // Luister naar alle klassen
   const klassen = ['ALPHA','BRAVO','CHARLIE','DELTA','ECHO','FOXTROT','GOLF','HOTEL','JULIETT','KILO','LIMA','MIKE'];
-
   onValue(ref(db, 'klassen'), (snapshot) => {
     const data = snapshot.val() || {};
     let html = '';
-
     for (const klas of klassen) {
       const gebruikers = (data[klas] && data[klas].gebruikers) ? data[klas].gebruikers : {};
       const keys = Object.keys(gebruikers);
       if (keys.length === 0) continue;
-
       html += `<h4 style="color:#3b9eff; margin:1rem 0 .5rem; font-size:.9rem;">Klas ${klas}</h4>`;
-
       for (const key of keys) {
         const g = gebruikers[key];
         const online = g.online !== false;
         const huidigRn = g.roepnummer || '';
-
         let opties = '<option value="">– Kies –</option>';
         for (const rn of BESCHIKBARE_ROEPNUMMERS) {
-          // Check of dit roepnummer al door iemand anders gebruikt wordt in dezelfde klas
           let bezet = false;
           for (const andereKey of keys) {
-            if (andereKey !== key && gebruikers[andereKey].roepnummer === rn) {
-              bezet = true; break;
-            }
+            if (andereKey !== key && gebruikers[andereKey].roepnummer === rn) { bezet = true; break; }
           }
           opties += `<option value="${rn}" ${huidigRn === rn ? 'selected' : ''} ${bezet ? 'disabled' : ''}>${rn}${bezet ? ' (bezet)' : ''}</option>`;
         }
-
         html += `
           <div class="student-rij">
             <span class="online-stip ${online ? '' : 'offline'}"></span>
             <span style="flex:1; font-weight:500;">${escapeHtml(g.naam)}</span>
-            <select onchange="wijsRoepnummerToe('${klas}','${key}', this.value)">
-              ${opties}
-            </select>
+            <select onchange="wijsRoepnummerToe('${klas}','${key}', this.value)">${opties}</select>
           </div>`;
       }
     }
-
-    if (!html) {
-      html = '<p style="color:#8899aa; font-style:italic;">Nog geen studenten ingelogd.</p>';
-    }
-    el.innerHTML = html;
+    el.innerHTML = html || '<p style="color:#8899aa; font-style:italic;">Nog geen studenten ingelogd.</p>';
   });
 }
 
@@ -1001,56 +751,28 @@ window.wijsRoepnummerToe = async function(klas, naamKey, roepnummer) {
     } else {
       await set(ref(db, `klassen/${klas}/gebruikers/${naamKey}/roepnummer`), null);
     }
-  } catch (err) {
-    console.error(err);
-    toonMelding('Fout bij toewijzen roepnummer.', true);
-  }
+  } catch (err) { toonMelding('Fout bij toewijzen roepnummer.', true); }
 };
-
-// ════════════════════════════════════════════════════════
-// MODULE: RESET
-// ════════════════════════════════════════════════════════
 
 window.resetAlles = async function() {
   if (!confirm('Weet je zeker dat je alle namen en teksten wilt verwijderen? Casussen blijven bewaard.')) return;
-
   try {
-    // Verwijder alle klassen (gebruikers)
     await remove(ref(db, 'klassen'));
-
-    // Verwijder alle mutaties
     await remove(ref(db, 'mutaties'));
-
-    // Verwijder alle PV's
     await remove(ref(db, 'pvs'));
-
-    // Verwijder porto-eenheden en signalen
     await remove(ref(db, 'porto'));
-
     toonMelding('✅ Reset uitgevoerd. Casussen zijn bewaard gebleven.');
-  } catch (err) {
-    console.error(err);
-    toonMelding('Fout bij resetten.', true);
-  }
+  } catch (err) { toonMelding('Fout bij resetten.', true); }
 };
-
-// ════════════════════════════════════════════════════════
-// TABBLADEN
-// ════════════════════════════════════════════════════════
 
 window.toonModule = function(naam) {
   document.querySelectorAll('.module').forEach(m => m.classList.remove('actief'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('actief'));
-
   const moduleEl = document.getElementById(`module-${naam}`);
   if (moduleEl) moduleEl.classList.add('actief');
-
   const tabEl = document.querySelector(`.tab[data-module="${naam}"]`);
   if (tabEl) tabEl.classList.add('actief');
-
-  // Speciale gevallen
   if (naam === 'porto' && huidigeGebruiker && huidigeGebruiker.rol === 'docent') {
-    // Docent heeft geen PTT-knop nodig in porto-module
     document.getElementById('pttKnop').style.display = 'none';
     document.getElementById('roepnummerDisplay').textContent = 'MELDKAMER';
     document.getElementById('roepnummerDisplay').style.fontSize = '2rem';
@@ -1060,18 +782,18 @@ window.toonModule = function(naam) {
   }
 };
 
-// ════════════════════════════════════════════════════════
-// UTILITY
-// ════════════════════════════════════════════════════════
-
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// ── Initialisatie ──
-kiesRol('student');
+// Essentiële koppelingen van functies aan het window-object voor HTML-interactie
+window.kiesRol = kiesRol;
+window.inloggen = inloggen;
+window.uitloggen = uitloggen;
 
+// Initialisatie
+kiesRol('student');
 </script>
 </body>
 </html>
