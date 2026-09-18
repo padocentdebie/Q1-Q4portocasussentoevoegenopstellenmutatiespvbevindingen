@@ -131,7 +131,14 @@
       padding: .4rem 1rem; border-radius: 20px; background: #121e2a;
     }
     .porto-status.zenden { color: #e74c3c; font-weight: 600; }
-    .porto-status.ontvangen { color: #27ae60; font-weight: 600; }
+    
+    @keyframes pulseren { 0% {opacity:1;} 50% {opacity:0.4;} 100% {opacity:1;} }
+    .badge-zendt {
+      background: #e74c3c; color: #fff; padding: .2rem .6rem;
+      border-radius: 12px; font-size: .75rem; font-weight: bold;
+      animation: pulseren 1.2s infinite; letter-spacing: 1px;
+    }
+
     /* ── Docent roepnummer toewijzing ── */
     .student-rij {
       display: flex; align-items: center; gap: .5rem;
@@ -167,11 +174,9 @@
   </style>
 </head>
 <body>
-<!-- ════════════════════════════════════════════════════════
-     INLOGSCHERM
-     ════════════════════════════════════════════════════════ -->
+<!-- INLOGSCHERM -->
 <div id="loginScherm">
-  <h1>POLITIE OPLEIDING</h1>
+  <h1>🚔 POLITIE OPLEIDING</h1>
   <p style="color:#8899aa; margin-bottom:.5rem;">Selecteer je rol en log in</p>
   <div class="rolKiezer">
     <button id="rolStudentKnop" class="actief" onclick="kiesRol('student')">Student</button>
@@ -190,9 +195,8 @@
   <button id="loginKnop" onclick="inloggen()">Inloggen</button>
   <p id="loginFout" style="color:#e74c3c; font-size:.85rem; min-height:1.2rem;"></p>
 </div>
-<!-- ════════════════════════════════════════════════════════
-     HOOFDINTERFACE
-     ════════════════════════════════════════════════════════ -->
+
+<!-- HOOFDINTERFACE -->
 <div id="app">
   <header>
     <h1>🚔 Lesapplicatie – <span id="headerRol"></span></h1>
@@ -209,7 +213,7 @@
     <div class="tab" data-module="porto" onclick="toonModule('porto')">📻 Porto</div>
     <div class="tab" id="docentTab" data-module="docent" onclick="toonModule('docent')" style="display:none;">👨‍🏫 Docent</div>
   </div>
-  <!-- ── Module: Casus ── -->
+  <!-- Module: Casus -->
   <div class="module actief" id="module-casus">
     <div class="kaart">
       <h3>📋 Casus selecteren</h3>
@@ -230,13 +234,11 @@
       <div id="casusWeergave" style="color:#8899aa; font-style:italic;">Nog geen casus geselecteerd.</div>
     </div>
   </div>
-  <!-- ── Module: Mutatie ── -->
+  <!-- Module: Mutatie -->
   <div class="module" id="module-mutatie">
     <div class="kaart">
       <h3>📝 Mutatie noteren</h3>
-      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">
-        Noteer hier wat je via de porto hoort. Gebruik de geselecteerde casus als bron.
-      </p>
+      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">Noteer hier wat je via de porto hoort. Gebruik de geselecteerde casus als bron.</p>
       <label for="mutatieTekst">Mutatie</label>
       <textarea id="mutatieTekst" placeholder="Typ hier je mutatie..."></textarea>
       <button class="actie" onclick="slaMutatieOp()">💾 Mutatie opslaan</button>
@@ -246,13 +248,11 @@
       <div id="mutatieLijst" style="color:#8899aa; font-style:italic;">Nog geen mutaties opgeslagen.</div>
     </div>
   </div>
-  <!-- ── Module: PV Bevindingen ── -->
+  <!-- Module: PV Bevindingen -->
   <div class="module" id="module-pv">
     <div class="kaart">
       <h3>📄 PV Bevindingen</h3>
-      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">
-        Werk je mutatie uit tot een PV Bevindingen. Gebruik de juiste ambtelijke taal.
-      </p>
+      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">Werk je mutatie uit tot een PV Bevindingen. Gebruik de juiste ambtelijke taal.</p>
       <label for="pvTekst">PV Bevindingen</label>
       <textarea id="pvTekst" placeholder="Typ hier je PV Bevindingen..." style="min-height:180px;"></textarea>
       <button class="actie" onclick="slaPvOp()">💾 PV opslaan</button>
@@ -262,7 +262,7 @@
       <div id="pvLijst" style="color:#8899aa; font-style:italic;">Nog geen PV's opgeslagen.</div>
     </div>
   </div>
-  <!-- ── Module: Porto ── -->
+  <!-- Module: Porto -->
   <div class="module" id="module-porto">
     <div class="roepnummer-display" id="roepnummerDisplay">– – – –</div>
     <div class="roepnummer-label">Jouw roepnummer</div>
@@ -273,20 +273,16 @@
       <div id="actieveEenheden"></div>
     </div>
   </div>
-  <!-- ── Module: Docent ── -->
+  <!-- Module: Docent -->
   <div class="module" id="module-docent">
     <div class="kaart">
       <h3>👨‍🏫 Roepnummers toewijzen</h3>
-      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">
-        Wijs aan elke ingelogde student een roepnummer toe (1101–1112).
-      </p>
+      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">Wijs aan elke ingelogde student een roepnummer toe (1101–1112).</p>
       <div id="studentLijstDocent"></div>
     </div>
     <div class="kaart">
       <h3>🔄 Reset</h3>
-      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">
-        Verwijdert alle namen en teksten. Casussen blijven bewaard.
-      </p>
+      <p style="font-size:.85rem; color:#8899aa; margin-bottom:.8rem;">Verwijdert alle namen en teksten. Casussen blijven bewaard.</p>
       <button class="actie gevaar" onclick="resetAlles()">🔄 Reset namen en teksten</button>
     </div>
   </div>
@@ -294,9 +290,7 @@
 <!-- Melding -->
 <div id="melding"></div>
 
-<!-- ════════════════════════════════════════════════════════
-     FIREBASE + APPLICATIELOGICA
-     ════════════════════════════════════════════════════════ -->
+<!-- FIREBASE + APPLICATIELOGICA -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
@@ -315,7 +309,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Globale status
 let huidigeRol = 'student';
 let huidigeGebruiker = null;
 let geselecteerdeCasusId = null;
@@ -355,7 +348,6 @@ async function inloggen() {
   foutEl.textContent = '';
   
   if (huidigeRol === 'docent') {
-    // DOCENT IDENTITEIT
     huidigeGebruiker = { naam: 'Docent', klas: null, roepnummer: 'MELDKAMER', rol: 'docent', naamKey: 'docent' };
     startApp();
     initPorto('MELDKAMER'); 
@@ -375,40 +367,32 @@ async function inloggen() {
       const gebruikers = snapshot.val();
       for (const [key, data] of Object.entries(gebruikers)) {
         if (key === naamKey) {
-          foutEl.textContent = `De naam "${naam}" is al in gebruik in klas ${klas}. Kies een andere voornaam.`;
+          foutEl.textContent = `De naam "${naam}" is al in gebruik. Kies een andere voornaam.`;
           return;
         }
       }
     }
     await set(ref(db, `klassen/${klas}/gebruikers/${naamKey}`), {
-      naam: naam,
-      klas: klas,
-      roepnummer: null,
-      online: true,
-      loginTijd: serverTimestamp()
+      naam: naam, klas: klas, roepnummer: null, online: true, loginTijd: serverTimestamp()
     });
     const onlineRef = ref(db, `klassen/${klas}/gebruikers/${naamKey}/online`);
     onDisconnect(onlineRef).set(false);
     huidigeGebruiker = { naam, klas, roepnummer: null, rol: 'student', naamKey };
     startApp();
   } catch (err) {
-    console.error('Login fout:', err);
     foutEl.textContent = 'Er ging iets mis bij het inloggen. Probeer opnieuw.';
   }
 }
 
 async function uitloggen() {
   if (huidigeGebruiker && huidigeGebruiker.rol === 'student') {
-    try {
-      await remove(ref(db, `klassen/${huidigeGebruiker.klas}/gebruikers/${huidigeGebruiker.naamKey}`));
-    } catch (err) {}
+    try { await remove(ref(db, `klassen/${huidigeGebruiker.klas}/gebruikers/${huidigeGebruiker.naamKey}`)); } catch (err) {}
   }
   stopPorto();
   ruimListenersOp();
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScherm').style.display = 'flex';
-  huidigeGebruiker = null;
-  geselecteerdeCasusId = null;
+  huidigeGebruiker = null; geselecteerdeCasusId = null;
   document.getElementById('voornaamInvoer').value = '';
   document.getElementById('klasSelect').value = '';
   document.getElementById('loginFout').textContent = '';
@@ -421,12 +405,8 @@ function startApp() {
   document.getElementById('headerNaam').textContent = huidigeGebruiker.rol === 'docent' ? '👨‍🏫 Docent' : huidigeGebruiker.naam;
   document.getElementById('docentTab').style.display = huidigeGebruiker.rol === 'docent' ? 'block' : 'none';
   
-  if (huidigeGebruiker.rol === 'student') { 
-      startPortoVoorStudent(); 
-  }
-  laadCasussen();
-  laadMutaties();
-  laadPvs();
+  if (huidigeGebruiker.rol === 'student') { startPortoVoorStudent(); }
+  laadCasussen(); laadMutaties(); laadPvs();
   if (huidigeGebruiker.rol === 'docent') { laadStudentenVoorDocent(); }
 }
 
@@ -434,10 +414,7 @@ async function laadCasussen() {
   const lijstEl = document.getElementById('casusLijst');
   onValue(ref(db, 'casussen'), (snapshot) => {
     const data = snapshot.val();
-    if (!data) {
-      lijstEl.innerHTML = '<p style="color:#8899aa; font-style:italic;">Nog geen casussen beschikbaar. Voeg er een toe.</p>';
-      return;
-    }
+    if (!data) { lijstEl.innerHTML = '<p style="color:#8899aa; font-style:italic;">Geen casussen beschikbaar.</p>'; return; }
     let html = '';
     for (const [id, casus] of Object.entries(data)) {
       const actief = id === geselecteerdeCasusId;
@@ -471,18 +448,16 @@ window.laadNieuweCasus = function() {
   document.getElementById('casusToevoegKaart').style.display = 'block';
   document.getElementById('casusTitel').value = '';
   document.getElementById('casusOmschrijving').value = '';
-  document.getElementById('casusTitel').focus();
 };
 window.annuleerCasusToevoegen = function() { document.getElementById('casusToevoegKaart').style.display = 'none'; };
 window.slaCasusOp = async function() {
   const titel = document.getElementById('casusTitel').value.trim();
   const omschrijving = document.getElementById('casusOmschrijving').value.trim();
-  if (!titel || !omschrijving) { toonMelding('Vul zowel een titel als een omschrijving in.', true); return; }
+  if (!titel || !omschrijving) { toonMelding('Vul titel en omschrijving in.', true); return; }
   try {
     await push(ref(db, 'casussen'), { titel, omschrijving, aangemaaktDoor: huidigeGebruiker.naam, aangemaaktOp: serverTimestamp() });
-    toonMelding('✅ Casus opgeslagen!');
-    annuleerCasusToevoegen();
-  } catch (err) { toonMelding('Fout bij opslaan casus.', true); }
+    toonMelding('✅ Casus opgeslagen!'); annuleerCasusToevoegen();
+  } catch (err) { toonMelding('Fout bij opslaan.', true); }
 };
 
 async function laadMutaties() {
@@ -494,18 +469,16 @@ async function laadMutaties() {
     let html = '';
     for (const [id, m] of Object.entries(data)) {
       const datum = m.tijdstip ? new Date(m.tijdstip).toLocaleString('nl-NL') : '';
-      html += `<div class="lijst-item"><div><div class="details">${datum}</div><div>${escapeHtml(m.tekst).substring(0, 100)}${m.tekst.length > 100 ? '...' : ''}</div></div></div>`;
+      html += `<div class="lijst-item"><div><div class="details">${datum}</div><div>${escapeHtml(m.tekst).substring(0, 100)}...</div></div></div>`;
     }
     lijstEl.innerHTML = html;
   });
 }
 window.slaMutatieOp = async function() {
   const tekst = document.getElementById('mutatieTekst').value.trim();
-  if (!tekst) { toonMelding('Typ eerst een mutatie.', true); return; }
-  try {
-    await push(ref(db, `mutaties/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), { tekst, tijdstip: Date.now(), casusId: geselecteerdeCasusId || null });
-    document.getElementById('mutatieTekst').value = ''; toonMelding('✅ Mutatie opgeslagen!');
-  } catch (err) { toonMelding('Fout bij opslaan mutatie.', true); }
+  if (!tekst) return;
+  await push(ref(db, `mutaties/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), { tekst, tijdstip: Date.now(), casusId: geselecteerdeCasusId || null });
+  document.getElementById('mutatieTekst').value = ''; toonMelding('✅ Mutatie opgeslagen!');
 };
 
 async function laadPvs() {
@@ -517,20 +490,19 @@ async function laadPvs() {
     let html = '';
     for (const [id, p] of Object.entries(data)) {
       const datum = p.tijdstip ? new Date(p.tijdstip).toLocaleString('nl-NL') : '';
-      html += `<div class="lijst-item"><div><div class="details">${datum}</div><div>${escapeHtml(p.tekst).substring(0, 100)}${p.tekst.length > 100 ? '...' : ''}</div></div></div>`;
+      html += `<div class="lijst-item"><div><div class="details">${datum}</div><div>${escapeHtml(p.tekst).substring(0, 100)}...</div></div></div>`;
     }
     lijstEl.innerHTML = html;
   });
 }
 window.slaPvOp = async function() {
   const tekst = document.getElementById('pvTekst').value.trim();
-  if (!tekst) { toonMelding('Typ eerst PV Bevindingen.', true); return; }
-  try {
-    await push(ref(db, `pvs/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), { tekst, tijdstip: Date.now(), casusId: geselecteerdeCasusId || null });
-    document.getElementById('pvTekst').value = ''; toonMelding('✅ PV opgeslagen!');
-  } catch (err) { toonMelding('Fout bij opslaan PV.', true); }
+  if (!tekst) return;
+  await push(ref(db, `pvs/${huidigeGebruiker.klas}/${huidigeGebruiker.naamKey}`), { tekst, tijdstip: Date.now(), casusId: geselecteerdeCasusId || null });
+  document.getElementById('pvTekst').value = ''; toonMelding('✅ PV opgeslagen!');
 };
 
+/* ── WEBRTC PORTO LOGICA ── */
 let localStream = null;
 let peerConnections = {};
 let audioElements = {};
@@ -548,7 +520,7 @@ async function startPortoVoorStudent() {
       const rn = snap.val();
       if (rn) {
         if (huidigeGebruiker.roepnummer !== rn) {
-            if (huidigeGebruiker.roepnummer) stopPorto(); // Verbreek oude verbinding eerst
+            if (huidigeGebruiker.roepnummer) stopPorto();
             huidigeGebruiker.roepnummer = rn;
             display.textContent = rn;
             document.getElementById('headerRoepnummer').textContent = rn;
@@ -567,19 +539,19 @@ async function startPortoVoorStudent() {
 
 async function initPorto(roepnummer) {
   const statusEl = document.getElementById('portoStatus');
-  statusEl.textContent = 'Microfoon aanvragen...';
+  statusEl.textContent = 'Microfoon initialiseren...';
   try {
     localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    
+    // BELANGRIJK: Mute direct de microfoon. Pas openzetten bij Push-To-Talk.
+    localStream.getAudioTracks().forEach(track => { track.enabled = false; });
+    
     statusEl.textContent = 'Verbonden – houd de knop in om te zenden';
     document.getElementById('pttKnop').disabled = false;
     
     await set(ref(db, `porto/eenheden/${roepnummer}`), {
-      roepnummer, 
-      naam: huidigeGebruiker.naam, 
-      klas: huidigeGebruiker.klas || 'Meldkamer',
-      online: true, 
-      zendt: false, 
-      verbondenSinds: serverTimestamp()
+      roepnummer, naam: huidigeGebruiker.naam, klas: huidigeGebruiker.klas || 'Meldkamer',
+      online: true, zendt: false, verbondenSinds: serverTimestamp()
     });
     
     onDisconnect(ref(db, `porto/eenheden/${roepnummer}/online`)).set(false);
@@ -610,7 +582,7 @@ function updateActieveEenheden(eenheden) {
           <span class="naam">${rn}</span>
           <span class="details">${escapeHtml(data.naam || '')}</span>
         </div>
-        ${zendt ? '<span style="color:#e74c3c; font-weight:600;">🔴 ZENDT</span>' : ''}
+        ${zendt ? '<span class="badge-zendt">🔴 ZENDT</span>' : ''}
       </div>`;
   }
   el.innerHTML = html || '<p style="color:#8899aa; font-style:italic;">Geen andere eenheden actief.</p>';
@@ -620,8 +592,6 @@ function onderhoudPeerConnections(eenheden, mijnRoepnummer) {
   const anderen = Object.keys(eenheden).filter(rn => rn !== mijnRoepnummer);
   anderen.forEach(rn => { 
     if (!peerConnections[rn]) {
-      // FIX: Alleen degene met het alfabetisch hogere roepnummer maakt de connectie (Offer). 
-      // Dit voorkomt dat beide partijen tegelijkertijd Offers sturen (Collision).
       const isInitiator = mijnRoepnummer > rn;
       maakPeerConnection(rn, isInitiator); 
     }
@@ -641,9 +611,7 @@ async function maakPeerConnection(remoteRoepnummer, isInitiator) {
     if (!audio) {
       audio = new Audio(); audio.autoplay = true; audioElements[remoteRoepnummer] = audio;
     }
-    if (audio.srcObject !== event.streams[0]) {
-      audio.srcObject = event.streams[0];
-    }
+    if (audio.srcObject !== event.streams[0]) { audio.srcObject = event.streams[0]; }
   };
 
   pc.onicecandidate = (event) => {
@@ -660,15 +628,11 @@ async function maakPeerConnection(remoteRoepnummer, isInitiator) {
             await pc.setRemoteDescription(new RTCSessionDescription(sdp));
             const answer = await pc.createAnswer();
             await pc.setLocalDescription(answer);
-            set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), {
-                type: answer.type, sdp: answer.sdp
-            });
+            set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), { type: answer.type, sdp: answer.sdp });
           } else if (sdp.type === 'answer' && pc.signalingState === 'have-local-offer') {
             await pc.setRemoteDescription(new RTCSessionDescription(sdp));
           }
-      } catch (e) {
-          console.error("Fout bij afhandelen SDP:", e);
-      }
+      } catch (e) {}
     }
   });
 
@@ -681,14 +645,11 @@ async function maakPeerConnection(remoteRoepnummer, isInitiator) {
 
   if (isInitiator) {
     try {
-        // Maak eerst oude signalen leeg voordat we een nieuwe offer maken
         await remove(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}`));
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
-        set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), {
-            type: offer.type, sdp: offer.sdp
-        });
-    } catch(e) { console.error("Fout bij verzenden offer", e); }
+        set(ref(db, `porto/signalen/${remoteRoepnummer}/${huidigeGebruiker.roepnummer}/sdp`), { type: offer.type, sdp: offer.sdp });
+    } catch(e) {}
   }
 }
 
@@ -704,39 +665,51 @@ function stopPorto() {
   if (portoListenerUnsub) { portoListenerUnsub(); portoListenerUnsub = null; }
   if (docentRoepnummerUnsub) { docentRoepnummerUnsub(); docentRoepnummerUnsub = null; }
   Object.keys(peerConnections).forEach(rn => sluitPeerConnection(rn));
-  if (localStream) {
-    localStream.getTracks().forEach(t => t.stop());
-    localStream = null;
-  }
-  if (huidigeGebruiker && huidigeGebruiker.roepnummer) {
-    remove(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`));
-  }
+  if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
+  if (huidigeGebruiker && huidigeGebruiker.roepnummer) { remove(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`)); }
   document.getElementById('pttKnop').disabled = true;
   document.getElementById('pttKnop').classList.remove('zenden');
   document.getElementById('portoStatus').textContent = 'Verbinden...';
 }
 
+/* ── PUSH TO TALK LOGICA ── */
 const pttKnop = document.getElementById('pttKnop');
+
 function startZenden() {
   if (isZenden || !huidigeGebruiker.roepnummer) return;
   isZenden = true; pttKnop.classList.add('zenden');
   document.getElementById('portoStatus').textContent = '🔴 ZENDT...';
   document.getElementById('portoStatus').className = 'porto-status zenden';
+  
+  // UNMUTE DE MICROFOON
+  if (localStream) {
+      localStream.getAudioTracks().forEach(track => { track.enabled = true; });
+  }
+  
   update(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`), { zendt: true });
 }
+
 function stopZenden() {
   if (!isZenden) return;
   isZenden = false; pttKnop.classList.remove('zenden');
   document.getElementById('portoStatus').textContent = 'Verbonden – houd de knop in om te zenden';
   document.getElementById('portoStatus').className = 'porto-status';
+  
+  // MUTE DE MICROFOON WEER
+  if (localStream) {
+      localStream.getAudioTracks().forEach(track => { track.enabled = false; });
+  }
+  
   if (huidigeGebruiker.roepnummer) { update(ref(db, `porto/eenheden/${huidigeGebruiker.roepnummer}`), { zendt: false }); }
 }
+
 pttKnop.addEventListener('mousedown', startZenden);
 pttKnop.addEventListener('mouseup', stopZenden);
 pttKnop.addEventListener('mouseleave', stopZenden);
 pttKnop.addEventListener('touchstart', (e) => { e.preventDefault(); startZenden(); });
 pttKnop.addEventListener('touchend', (e) => { e.preventDefault(); stopZenden(); });
 
+/* ── DOCENT LOGICA ── */
 async function laadStudentenVoorDocent() {
   const el = document.getElementById('studentLijstDocent');
   const klassen = ['ALPHA','BRAVO','CHARLIE','DELTA','ECHO','FOXTROT','GOLF','HOTEL','JULIETT','KILO','LIMA','MIKE'];
@@ -775,7 +748,6 @@ async function laadStudentenVoorDocent() {
 window.wijsRoepnummerToe = async function(klas, naamKey, roepnummer) {
   try {
     if (roepnummer) {
-      // Voordat we een nieuw nummer toewijzen, schoont de student straks zelf op.
       await set(ref(db, `klassen/${klas}/gebruikers/${naamKey}/roepnummer`), roepnummer);
       toonMelding(`✅ Roepnummer ${roepnummer} toegewezen.`);
     } else {
@@ -787,10 +759,8 @@ window.wijsRoepnummerToe = async function(klas, naamKey, roepnummer) {
 window.resetAlles = async function() {
   if (!confirm('Weet je zeker dat je alle namen en teksten wilt verwijderen? Casussen blijven bewaard.')) return;
   try {
-    await remove(ref(db, 'klassen'));
-    await remove(ref(db, 'mutaties'));
-    await remove(ref(db, 'pvs'));
-    await remove(ref(db, 'porto'));
+    await remove(ref(db, 'klassen')); await remove(ref(db, 'mutaties'));
+    await remove(ref(db, 'pvs')); await remove(ref(db, 'porto'));
     toonMelding('✅ Reset uitgevoerd. Casussen zijn bewaard gebleven.');
   } catch (err) { toonMelding('Fout bij resetten.', true); }
 };
@@ -803,7 +773,6 @@ window.toonModule = function(naam) {
   const tabEl = document.querySelector(`.tab[data-module="${naam}"]`);
   if (tabEl) tabEl.classList.add('actief');
   
-  // Zorg dat de docent ook gewoon de porto knop blijft zien en kan spreken
   if (naam === 'porto' && huidigeGebruiker && huidigeGebruiker.rol === 'docent') {
     document.getElementById('pttKnop').style.display = 'flex';
     document.getElementById('roepnummerDisplay').textContent = 'MELDKAMER';
